@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advance Happy Birthday Tangiii 🎉</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Intro Page */
+    #intro {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: black;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    #intro h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #fff, 0 0 20px #ff00de, 0 0 30px #00eaff; }
+      to { text-shadow: 0 0 20px #fff, 0 0 40px #ff0080, 0 0 60px #ffe600; }
+    }
+    #startBtn {
+      background: #ff4081;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1.2rem;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(255,64,129,0.7);
+      transition: 0.3s;
+    }
+    #startBtn:hover {
+      background: #ff79a7;
+      transform: scale(1.1);
+    }
+
+    /* Main Birthday Page */
+    #main {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3, #a18cd1, #fbc2eb);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      width: 100%;
+      height: 100%;
+      color: white;
+      position: relative;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    #main h1 {
+      font-size: 2.5rem;
+      margin: 10px;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    .countdown {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: #fff9c4;
+      text-shadow: 0 0 15px #ffcc00, 0 0 30px #ff6699;
+      margin-bottom: 20px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    #main img {
+      width: 230px;
+      border-radius: 50%;
+      margin: 20px 0;
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
+    }
+
+    #main h2 {
+      font-size: 1.3rem;
+      max-width: 700px;
+      line-height: 1.6;
+      margin: 0 20px;
+    }
+
+    /* Fireworks canvas */
+    #fireworks {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Floating Hearts */
+    .heart {
+      position: fixed;
+      bottom: -10px;
+      font-size: 20px;
+      animation: floatUp 6s linear infinite;
+      color: #ffdde1;
+      opacity: 0.8;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Music -->
+  <audio id="bg-music" src="song.mp3" loop></audio>
+
+  <!-- Intro Page -->
+  <div id="intro">
+    <h1>Hey Talkative Tangiii 💖♾️</h1>
+    <button id="startBtn">Click to Begin 🎁</button>
+  </div>
+
+  <!-- Main Page -->
+  <div id="main">
+    <canvas id="fireworks"></canvas>
+    <h1>🌸 Advance Happy Birthday 🎂</h1>
+    <div class="countdown">✨ Only 4 Days To Go ✨</div>
+    <img src="photo1.jpg" alt="Tangiii">
+    <h2>You are my favorite sister forever 💕 Thank you for always being with me.  
+    Two souls, one heart 🌍 — you’re my best sister ever.  
+    May your life be filled with joy, love, and endless smiles ✨🎉</h2>
+  </div>
+
+  <!-- Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <script>
+    const intro = document.getElementById("intro");
+    const main = document.getElementById("main");
+    const music = document.getElementById("bg-music");
+
+    document.getElementById("startBtn").addEventListener("click", () => {
+      intro.style.display = "none";
+      main.style.display = "flex";
+      music.play();
+
+      // Confetti burst
+      setTimeout(() => {
+        confetti({ particleCount: 200, spread: 120, origin: { y: 0.6 } });
+      }, 800);
+    });
+
+    // 🎇 Fireworks
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function random(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function createFirework() {
+      const x = random(100, canvas.width - 100);
+      const y = random(50, canvas.height / 2);
+      const count = random(30, 60);
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x, y,
+          angle: (Math.PI * 2 * i) / count,
+          speed: random(2, 6),
+          radius: 2,
+          alpha: 1,
+          decay: random(0.01, 0.02),
+          color: `hsl(${random(0, 360)}, 100%, 50%)`
+        });
+      }
+    }
+
+    function updateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach((p, i) => {
+        p.x += Math.cos(p.angle) * p.speed;
+        p.y += Math.sin(p.angle) * p.speed;
+        p.alpha -= p.decay;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.alpha;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      });
+      particles = particles.filter(p => p.alpha > 0);
+    }
+
+    function loop() {
+      if (main.style.display === "flex" && Math.random() < 0.05) createFirework();
+      updateParticles();
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    // ❤️ Floating hearts
+    function createHeart() {
+      if (main.style.display !== "flex") return;
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = "💖";
+      heart.style.left = Math.random() * window.innerWidth + "px";
+      heart.style.fontSize = Math.random() * 20 + 15 + "px";
+      document.body.appendChild(heart);
+
+      setTimeout(() => { heart.remove(); }, 6000);
+    }
+    setInterval(createHeart, 800);
+  </script>
+</body>
+</html>
